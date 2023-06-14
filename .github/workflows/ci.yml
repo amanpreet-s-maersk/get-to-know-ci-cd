@@ -31,4 +31,7 @@ jobs:
         uses: actions/setup-go@v4.0.1
         
       - name: Test package
-        run: go test .
+        run: |
+          cd go-app \
+          go test . \
+          |
