@@ -34,4 +34,3 @@ jobs:
         run: |
           cd go-app \
           go test . \
-          |
