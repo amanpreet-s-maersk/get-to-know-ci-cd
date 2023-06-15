@@ -58,7 +58,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./go-app/
-          file: ./Dockerfile
+          file: go-app/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/get-to-know-ci-cd:latest
     
