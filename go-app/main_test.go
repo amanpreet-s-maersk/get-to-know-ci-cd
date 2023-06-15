@@ -1,25 +1,23 @@
 package main
 
 import (
-	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
-func TestSum(t *testing.T) {
-	var tests = []struct {
-		a, b int
-		want int
-	}{
-		{0, 1, 1},
-		{1, 2, 3},
+func TestPingRoute(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/ping", nil)
+	w := httptest.NewRecorder()
+	PongHandler(w, req)
+	res := w.Result()
+	defer res.Body.Close()
+	data, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("expected error to be nil got %v", err)
 	}
-
-	for _, tt := range tests {
-		t.Run(fmt.Sprintf("%d,%d", tt.a, tt.b), func(t *testing.T) {
-			ans := Sum(tt.a, tt.b)
-			if ans != tt.want {
-				t.Errorf("got %d, want %d", ans, tt.want)
-			}
-		})
+	if string(data) != "pong" {
+		t.Errorf("expected pong got %v", string(data))
 	}
 }
